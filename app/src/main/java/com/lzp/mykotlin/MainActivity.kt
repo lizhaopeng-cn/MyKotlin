@@ -116,6 +116,18 @@ class MainActivity : AppCompatActivity() {
             Log.i("test", "data-${c1.hashCode()}-$c1")
             Log.i("test", "data-${c1 == c2}")
 
+            //lambda
+            val c3 = Computer("i7", 5)
+            val list = listOf(c, c1, c3)
+            Log.i("test", "lambad-${list.maxBy({ c: Computer -> c.cpu })}")
+            Log.i("test", "lambad-${list.maxBy { it.display }}")
+
+            val sum = { x: Int, y: Int -> x + y}
+            val sum1 = { x: Int, y: Int ->
+                x * y
+                x + y}
+            Log.i("test", "${sum(1, 2)}")
+
         }
     }
 
