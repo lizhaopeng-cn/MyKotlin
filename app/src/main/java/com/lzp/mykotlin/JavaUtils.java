@@ -1,12 +1,12 @@
 package com.lzp.mykotlin;
 
-import com.lzp.yourkotlin.KotlinUtils;
 import com.lzp.yourkotlin.TopClass;
+import org.jetbrains.annotations.NotNull;
 
 public class JavaUtils {
 
     public Person getP() {
-        Person p = new Person("lisi", 12, false);
+        Person p = new Person("lisi", "上海",12, false);
         //get
         p.getName();
         p.getAge();
@@ -29,6 +29,24 @@ public class JavaUtils {
 
     public static String qqq(){
         return "java";
+    }
+
+    class KA implements com.lzp.mykotlin.ClickableB{
+
+        @NotNull
+        @Override
+        public String showText() {
+            return null;
+        }
+
+        @Override
+        public void click() {
+
+        }
+    }
+
+    interface Ja{
+        String a = "aaa";
     }
 
 }

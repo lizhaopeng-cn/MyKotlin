@@ -13,16 +13,32 @@ import java.util.*
 
 /**
  * kotlin
- * 7.枚举类
- * 8.when
- * 9.智能类型转换 is
- * 10.while，do while, for, map，in 检查区间集合
- * 11.异常
- * 12.指定命名参数与顺序
- * 13.顶层函数/顶层属性的调用（kotlin,java）
- * 14.扩展函数和属性
- * 15。可变参数varage和展开运算符*
+ * 1.函数结构
+ * 2.变量
+ * 3.字符串模板
+ * 4.类属性访问器-自定义访问器
+ * 5.目录-包-类名
+ * 6.枚举类
+ * 7.when
+ * 8.智能类型转换 is
+ * 9..while，do while, for, map，in 检查区间集合
+ * 10.异常
+ * 11.指定命名参数与顺序
+ * 12.顶层函数/顶层属性的调用（kotlin,java）
+ * 13.扩展函数和属性
+ * 14.可变参数varage和展开运算符*
+ * 15.三重引号
+ * 16.局部函数
+ * 17.继承和实现
+ * 18.open 、final 和abstract 修饰符：默认为final
+ * 19.public、internal、protected、private
+ * 20.内部类和密封类
+ * 21.构造方法
+ * 22.接口属性
+ * 23.访问器支持字段与可见性
+ * 24.数据类data
  */
+
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +55,7 @@ class MainActivity : AppCompatActivity() {
             Log.i("test","a + b = ${a + b}")
             //字符串连接（字符串放前面）
             Log.i("test", "a * b = " + a*b)
-            val p: Person = Person("zhangsan", 18, true)
+            val p: Person = Person("zhangsan", "苏州", 18, true)
             p.age = 11
             p.isMarried = false
 
@@ -77,6 +93,20 @@ class MainActivity : AppCompatActivity() {
             Log.i("test", "extMethod-${"897ssdf".isNF()}")
             Log.i("test", "extAtt-${"wejsd".lastIndex}")
 
+            Log.i("test", """\n extAtt-${'$'}{"wejsd".lastIndex}aaa
+                |bbb
+            """.trimMargin())
+
+//            解构声明，将类解构成变量
+//
+//            var user = User("代码如此多娇", 27, "man")
+//            var (name, age, sex) = user
+//            println("$name,$age,$sex")
+
+            Log.i("test", "data-${p.hashCode()}-${p.toString()}")
+
+            val c = Computer("i7", 2)
+            Log.i("test", "data-${c.hashCode()}-${c.toString()}")
         }
     }
 
@@ -216,6 +246,17 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+    /**
+     * 局部函数
+     */
+    fun writePerson(p: Person, date: String) {
+        fun localMed(value: String, name: String) =
+            if (value.isEmpty()) "$date $name=null" else "$name=$value"
+
+        localMed(p.name, "name")
+        localMed(p.address, "address")
+    }
+
     fun foo() {
         listOf(1, 2, 3, 4, 5).forEach {
             if (it == 3)
@@ -225,3 +266,82 @@ class MainActivity : AppCompatActivity() {
         Log.i("test","this point is unreachable")
     }
 }
+
+open class ClassA(){
+    open fun showText() = "ClassA"
+}
+
+interface ClickableA {
+    fun showText() = "ClickableA"
+}
+
+interface ClickableB {
+    fun click()
+    fun showText() = "ClickableB"
+}
+
+abstract class AbstractA {
+    abstract fun click()
+    open fun showText() = "AbstractA"
+}
+
+open class TextView: ClassA(), ClickableA, ClickableB {
+    override fun click() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    //父类方法open，默认open
+    final override fun showText(): String {
+        return super<ClickableA>.showText()
+    }
+
+}
+
+class Button: com.lzp.mykotlin.TextView() {
+//    override fun showText(): String {
+//        return super.showText()
+//    }
+}
+
+class MyView: AbstractA() {
+    override fun click() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun showText(): String {
+        return super.showText()
+    }
+}
+
+//接口属性
+interface User{
+    val name: String
+    val age: Int
+        get() = name.length
+}
+
+// name 覆盖值
+// address 访问器支持字段
+class PrivateUser(override val name: String) : User {
+    var address: String = "address"
+        private set(value) { // 访问器只能类内修改
+            Log.i("test", "$field")
+            field = value
+        }
+}
+// name 调用获得
+class SubscribingUser(val email: String) : User {
+    override val name: String
+        get() = email.substringBefore('@')
+}
+// name 存储值
+class FacebookUser(val accountId: Int): User {
+    override val name: String = getUserName(accountId)
+
+    private fun getUserName(accountId: Int): String {
+        return accountId.toString()
+    }
+}
+
+//数据类data
+data class Computer(val cpu: String, var tv: Int){}
