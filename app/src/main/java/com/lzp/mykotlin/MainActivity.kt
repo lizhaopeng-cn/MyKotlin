@@ -37,6 +37,9 @@ import java.util.*
  * 22.接口属性
  * 23.访问器支持字段与可见性
  * 24.数据类data
+ * 25.类委托 by
+ * 26.对象声明 单例object
+ * 27.伴生对象
  */
 
 class MainActivity : AppCompatActivity() {
@@ -45,7 +48,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val textView: TextView = findViewById(R.id.textView)
-        textView.setOnClickListener{it -> foo()
+        textView.setOnClickListener{
+            foo()
             val a = 1
             var b = 2
 //            a = 3
@@ -103,10 +107,15 @@ class MainActivity : AppCompatActivity() {
 //            var (name, age, sex) = user
 //            println("$name,$age,$sex")
 
-            Log.i("test", "data-${p.hashCode()}-${p.toString()}")
-
-            val c = Computer("i7", 2)
+            //data数据类
+            val c = Computer("i5", 1)
+            val c1 = Computer("i7", 2)
+            val c2 = Computer("i7", 2)
             Log.i("test", "data-${c.hashCode()}-${c.toString()}")
+            Log.i("test", "data-${c1.hashCode()}-$c1")
+            Log.i("test", "data-${c1.hashCode()}-$c1")
+            Log.i("test", "data-${c1 == c2}")
+
         }
     }
 
@@ -257,6 +266,48 @@ class MainActivity : AppCompatActivity() {
         localMed(p.address, "address")
     }
 
+    fun kk(){
+        //        val a: Int = 'a'
+        val aa: Int = 'a'.toInt()
+
+        val a: Int = 127
+        val b: Int? = a
+        val c: Int? = a
+        Log.i("test", (c == b).toString())
+        Log.i("test", (c === b).toString())
+
+        val a1: Int = 1
+//        val b1: Double = a1 // kotlin 不能由低到高自动类型转换
+        val c1: Double = a1.toDouble()
+        val d1: Double = a1 + 1.5
+        val e1: Double = a1.plus(1.5)
+
+        //数组
+        val list = listOf<String>("a", "b", "c")
+        val array = list.toTypedArray();
+
+        val array1 = arrayOf("d", "e", "f")
+        val array2 = arrayOfNulls<Int>(3)
+        array2[0] = 5
+        array2.set(1, 9)
+        val array3 = arrayOfNulls<String>(3)
+        array3[0] = "g"
+        array3.set(1, "h")
+        val array4 = IntArray(3){i -> i + 2 }
+        array.forEach { Log.i("test", it) }
+        array1.forEach { Log.i("test", it) }
+        array2.forEach { Log.i("test", it.toString()) }
+//        array3.forEach { Log.i("test", it) }
+        array4.forEach { Log.i("test", it.toString()) }
+        Log.i("test", "array1[2]-${array1[2]}") // 字符串模版
+        Log.i("test", "array2[2]-" + array2[2]) // 字符串连接，必须第一个是字符串
+        Log.i("test", "array3[2]-" + array3[2])
+        Log.i("test", "array4[2]-${array4.get(2)}")
+
+        val aaa = """aaa\nbbb""" // 字符串字面值
+        Log.i("test", aaa)
+    }
+
     fun foo() {
         listOf(1, 2, 3, 4, 5).forEach {
             if (it == 3)
@@ -344,4 +395,4 @@ class FacebookUser(val accountId: Int): User {
 }
 
 //数据类data
-data class Computer(val cpu: String, var tv: Int){}
+data class Computer(val cpu: String, var display: Int){}
