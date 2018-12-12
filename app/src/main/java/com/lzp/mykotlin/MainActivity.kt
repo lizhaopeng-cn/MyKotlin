@@ -40,6 +40,12 @@ import java.util.*
  * 25.类委托 by
  * 26.对象声明 单例object
  * 27.伴生对象
+ * 28.lambda 访问变量
+ * 29.lambda 成员引用
+ * 30.集合函数api
+ * 31.惰性集合序列
+ * 32.Java函数式接口
+ * 33.lambda-with/apply
  */
 
 class MainActivity : AppCompatActivity() {
@@ -49,7 +55,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val textView: TextView = findViewById(R.id.textView)
         textView.setOnClickListener{
-            foo()
             val a = 1
             var b = 2
 //            a = 3
@@ -122,12 +127,29 @@ class MainActivity : AppCompatActivity() {
             Log.i("test", "lambad-${list.maxBy({ c: Computer -> c.cpu })}")
             Log.i("test", "lambad-${list.maxBy { it.display }}")
 
-            val sum = { x: Int, y: Int -> x + y}
+            val sum = { x: Int, y: Int -> x + y }
+            Log.i("test", "${sum(1, 2)}")
+
+            val printValue =  run { Log.i("test", "printValue") }
+
             val sum1 = { x: Int, y: Int ->
                 x * y
                 x + y}
-            Log.i("test", "${sum(1, 2)}")
+            Log.i("test", "${sum1(1, 2)}")
 
+            foo("forEach")
+
+            //lambda 成员引用
+            Log.i("test", "lambad-${list.maxBy(Computer::display)}")
+            Log.i("test", "lambad-${run(::topString)}")
+            Log.i("test", "lambad-${run(::topMethod)}")
+//            Log.i("test", "lambad-${String::isNF}")
+//            Log.i("test", "lambad-${"4sdf"::isNF}")
+//            Log.i("test", "lambad-${String::extText}")
+
+            //延期创建类实例
+            val creatComputer = ::Computer
+            val c4 = creatComputer("i7", 5)
         }
     }
 
@@ -320,13 +342,15 @@ class MainActivity : AppCompatActivity() {
         Log.i("test", aaa)
     }
 
-    fun foo() {
+    fun foo(title: String) {
+        var count: Int = 0
         listOf(1, 2, 3, 4, 5).forEach {
             if (it == 3)
+                count++
                 return@forEach
             Log.i("test",it.toString())
         }
-        Log.i("test","this point is unreachable")
+        Log.i("test","$title $count this point is unreachable")
     }
 }
 
@@ -407,4 +431,8 @@ class FacebookUser(val accountId: Int): User {
 }
 
 //数据类data
-data class Computer(val cpu: String, var display: Int){}
+data class Computer(val cpu: String, var display: Int){
+    fun printComputerLog() {
+        Log.i("test", "printComputerLog")
+    }
+}

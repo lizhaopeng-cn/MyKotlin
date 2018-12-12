@@ -6,7 +6,7 @@ package com.lzp.yourkotlin
  * 顶层函数
  */
 fun topMethod(): String {
-    return "topMethod";
+    return "topMethod"
 }
 /**
  * 顶层属性
@@ -17,6 +17,7 @@ const val topString = "top_string"
  * 扩展函数
  */
 fun String.isNumFirst(): Boolean = this.get(0) in '0'..'9'
+fun String.extText(): String = "::引用扩展函数"
 
 /**
  * 扩展属性
