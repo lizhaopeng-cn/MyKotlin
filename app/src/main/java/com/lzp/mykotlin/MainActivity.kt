@@ -150,13 +150,29 @@ class MainActivity : AppCompatActivity() {
             //延期创建类实例
             val creatComputer = ::Computer
             val c4 = creatComputer("i7", 5)
+
+            //可空性
+            val text = null
+            val test1: String? = "123"
+            fun n(s: String) = s.length
+//            n(test)
+            fun n1(s: String?) = if (s != null) s.length else null // s ?.length
+            fun n2(s: String?) = if (s != null) s else "" // s ?: ""
+            fun n3(s: String?) = if (s is String) s else null // s as? ""
+            fun n4(s: String?) = if (s != null) s else "NullPointerException" // s!!
+            fun n5(s: String?) {
+                if (s != null) s.length//s?.let { it.length }
+            }
+
+            j.judgeEquals()
+            kk()
         }
     }
 
     /**
      * 集合
      */
-    fun coll(){
+    fun coll(): java.lang.StringBuilder{
         val list = listOf(1, 2, 3)
         val set = hashSetOf(4, 5, 6)
         val map = hashMapOf(7 to "seven", 8 to "eight", 9 to "nine")
@@ -170,6 +186,7 @@ class MainActivity : AppCompatActivity() {
         for ((k, v) in map){
             str.append("$k,$v ")
         }
+        return str
     }
     /**
      * when的参数可以是任意对象
@@ -304,11 +321,13 @@ class MainActivity : AppCompatActivity() {
         //        val a: Int = 'a'
         val aa: Int = 'a'.toInt()
 
-        val a: Int = 127
+        val a: Int = 128
         val b: Int? = a
         val c: Int? = a
-        Log.i("test", (c == b).toString())
-        Log.i("test", (c === b).toString())
+        Log.i("test", "equals-${a == b}")
+        Log.i("test", "equals-${a === b}")
+        Log.i("test", "equals-${c == b}")
+        Log.i("test", "equals-${c === b}")
 
         val a1: Int = 1
 //        val b1: Double = a1 // kotlin 不能由低到高自动类型转换

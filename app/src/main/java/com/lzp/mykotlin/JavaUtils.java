@@ -51,7 +51,7 @@ public class JavaUtils {
         String a = "aaa";
     }
 
-    private void judgeEquals(){
+    public void judgeEquals(){
         {
             // ==基本类型比值；==包装类比引用地址；equals比引用地址
             Integer a = 127;
@@ -66,7 +66,7 @@ public class JavaUtils {
             int a = 60000;
             Integer b = a;
             boolean isEqual = a == b; // b的Integer拆箱与a比值
-            Log.i("test","isEquali=" + String.valueOf(isEqual));
+            Log.i("test","isEquali=" + String.valueOf(isEqual)); // true
         }
     }
 
